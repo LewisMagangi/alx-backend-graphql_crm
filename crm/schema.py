@@ -4,6 +4,7 @@ from django.db import transaction
 from django.utils import timezone
 import graphene
 from graphene_django import DjangoObjectType
+from graphene_django.filter import DjangoFilterConnectionField
 from .models import Customer, Product, Order
 
 # -------------------- GraphQL Types --------------------
@@ -134,11 +135,11 @@ class CreateOrder(graphene.Mutation):
 
 # -------------------- Root Schema --------------------
 class Query(graphene.ObjectType):
-    all_customers = graphene.List(CustomerType)
+    all_customers = DjangoFilterConnectionField(CustomerType)
     all_products = graphene.List(ProductType)
     all_orders = graphene.List(OrderType)
 
-    def resolve_all_customers(root, info):
+    def resolve_all_customers(root, info, **kwargs):
         return Customer.objects.all()
 
     def resolve_all_products(root, info):
