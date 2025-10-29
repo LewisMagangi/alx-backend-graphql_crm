@@ -5,7 +5,8 @@ from django.utils import timezone
 import graphene
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
-from .models import Customer, Product, Order
+from .models import Customer, Order
+from crm.models import Product
 
 # -------------------- Low Stock Mutation --------------------
 class UpdateLowStockProducts(graphene.Mutation):
