@@ -1,7 +1,10 @@
-
 venv/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.log
+db.sqlite3
+venv/
 *.py[cod]
 *$py.class
 
@@ -49,3 +52,6 @@ dmypy.json
 
 # Pytest
 .pytest_cache/
+
+#
+.pycache/
