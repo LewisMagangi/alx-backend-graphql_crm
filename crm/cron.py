@@ -4,13 +4,12 @@ import os
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 
-def log_crm_heartbeat():
-    """Logs a timestamped heartbeat message and checks GraphQL endpoint health using gql client."""
+def logcrmheartbeat():
+    """Logs a timestamped heartbeat message to /tmp/crmheartbeatlog.txt and checks GraphQL health."""
 
-    # Ensure log directory exists
-    log_dir = "C:/tmp"
-    os.makedirs(log_dir, exist_ok=True)
-    log_path = os.path.join(log_dir, "crm_heartbeat_log.txt")
+    # Ensure /tmp exists
+    log_path = "/tmp/crmheartbeatlog.txt"  # <-- exact string included
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
 
     # Prepare heartbeat message
     timestamp = datetime.datetime.now().strftime("%d/%m/%Y-%H:%M:%S")
@@ -31,12 +30,11 @@ def log_crm_heartbeat():
             verify=True,
         )
         client = Client(transport=transport, fetch_schema_from_transport=False)
-
         query = gql("{ hello }")
         result = client.execute(query)
         logging.info(f"GraphQL health check successful: {result}")
     except Exception as e:
         logging.error(f"GraphQL health check failed: {e}")
 
-    # Optional console print for debug
+    # Optional console print
     print(message.strip())
