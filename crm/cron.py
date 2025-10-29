@@ -4,11 +4,11 @@ import os
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 
-def logcrmheartbeat():
-    """Logs a timestamped heartbeat message to /tmp/crmheartbeatlog.txt and checks GraphQL health."""
+def log_crm_heartbeat():
+    """Logs a timestamped heartbeat message to /tmp/crm_heartbeat_log.txt and checks GraphQL health."""
 
     # Ensure /tmp exists
-    log_path = "/tmp/crmheartbeatlog.txt"  # <-- exact string included
+    log_path = "/tmp/crm_heartbeat_log.txt"  # <-- exact string included
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
 
     # Prepare heartbeat message
