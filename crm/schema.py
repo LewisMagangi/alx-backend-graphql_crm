@@ -7,6 +7,26 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from .models import Customer, Product, Order
 
+# -------------------- Low Stock Mutation --------------------
+class UpdateLowStockProducts(graphene.Mutation):
+    class Arguments:
+        pass  # No arguments needed
+
+    updated_products = graphene.List(lambda: ProductType)
+    message = graphene.String()
+
+    def mutate(self, info):
+        low_stock_products = Product.objects.filter(stock__lt=10)
+        updated_list = []
+        for product in low_stock_products:
+            product.stock += 10
+            product.save()
+            updated_list.append(product)
+        return UpdateLowStockProducts(
+            updated_products=updated_list,
+            message=f"{len(updated_list)} products updated successfully."
+        )
+
 # -------------------- GraphQL Types --------------------
 class CustomerType(DjangoObjectType):
     class Meta:
@@ -154,3 +174,4 @@ class Mutation(graphene.ObjectType):
     bulk_create_customers = BulkCreateCustomers.Field()
     create_product = CreateProduct.Field()
     create_order = CreateOrder.Field()
+    update_low_stock_products = UpdateLowStockProducts.Field()
