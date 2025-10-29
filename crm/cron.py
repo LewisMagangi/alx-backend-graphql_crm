@@ -1,7 +1,10 @@
 import datetime
 import logging
+import gql
 import requests
 import os
+from gql.transport.requests import RequestsHTTPTransport
+from gql import gql, Client
 
 def log_crm_heartbeat():
     """Logs a timestamped heartbeat message to confirm CRM health."""
